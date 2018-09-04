@@ -3,12 +3,13 @@
 //  dsigner
 //
 //  Created by Derek Selander on 9/3/18.
-//  Copyright © 2018 Razeware. All rights reserved.
+//  Copyright © 2018 Selander. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <getopt.h>
 #import <libgen.h>
+#import "codesign.h"
 @import MachO;
 @import Foundation;
 @import Cocoa;
@@ -55,18 +56,18 @@ struct linkedit_data_command * codesign_offset(char *buffer) {
 
 }
 
-typedef struct __BlobIndex {
-  uint32_t type;          /* type of entry */
-  uint32_t offset;        /* offset of entry */
-} CS_BlobIndex;
+//typedef struct __BlobIndex {
+//  uint32_t type;          /* type of entry */
+//  uint32_t offset;        /* offset of entry */
+//} CS_BlobIndex;
 
-typedef struct __SuperBlob {
-  uint32_t magic;          /* magic number */
-  uint32_t length;        /* total length of SuperBlob */
-  uint32_t count;          /* number of index entries following */
-  CS_BlobIndex index[];      /* (count) entries */
-  /* followed by Blobs in no particular order as indicated by offsets in index */
-} CS_SuperBlob;
+//typedef struct __SuperBlob {
+//  uint32_t magic;          /* magic number */
+//  uint32_t length;        /* total length of SuperBlob */
+//  uint32_t count;          /* number of index entries following */
+//  CS_BlobIndex index[];      /* (count) entries */
+//  /* followed by Blobs in no particular order as indicated by offsets in index */
+//} CS_SuperBlob;
 
 
 
@@ -129,20 +130,19 @@ int main(int argc, const char * argv[], const char *enp[]) {
     for (int i = 0; i < SuperBlobGetCount(blob); i++) {
       CS_BlobIndex index = blob->index[i];
 
-      if (ntohl(index.type) == 5) {
+      if (ntohl(index.type) == CSTYPE_INDEX_ENTITLEMENTS) {
         
-        char * entitlements = (char *)((uintptr_t)(blob) + ntohl(index.offset));
+        CS_GenericBlob *entitlements_blob = (CS_GenericBlob *)((uintptr_t)(blob) + ntohl(index.offset));
+        assert(ntohl(entitlements_blob->magic) == CSMAGIC_EMBEDDED_ENTITLEMENTS);
         
-        
-        // do entitlements always have 0xfa 0xde at begin/end?
-        char* refined_entitlements = strdup((&entitlements[8]));
-        refined_entitlements[strlen(refined_entitlements) - 2] = '\x00';
+//        char * entitlements = (char *)((uintptr_t)(blob) + ntohl(index.offset));
+        size_t entitlements_length = ntohl(entitlements_blob->length) - sizeof(uint32_t) * 2; // cut off remaining parts of the CS_GENERICBLOB struct
+        char * entitlements = malloc(sizeof(char) * entitlements_length);
+        strncpy(entitlements, entitlements_blob->data, entitlements_length);
         
         NSPropertyListFormat format = 0;
         NSError *error = nil;
-        refined_entitlements[strlen(refined_entitlements) - 2] = '\x00';
-
-        NSString *strEntitlements = [NSString stringWithUTF8String:refined_entitlements];
+        NSString *strEntitlements = [NSString stringWithUTF8String:entitlements];
         NSData *plistData = [strEntitlements dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:plistData options:NSPropertyListImmutable format:&format error:&error];
   

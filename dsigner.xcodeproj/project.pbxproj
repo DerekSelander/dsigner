@@ -36,6 +36,7 @@
 /* Begin PBXFileReference section */
 		A6D280E9213DC40100CA7188 /* dsigner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dsigner; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6D280EC213DC40100CA7188 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A6D280F5213EB70500CA7188 /* codesign.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = codesign.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +69,7 @@
 		A6D280EB213DC40100CA7188 /* dsigner */ = {
 			isa = PBXGroup;
 			children = (
+				A6D280F5213EB70500CA7188 /* codesign.h */,
 				A6D280EC213DC40100CA7188 /* main.m */,
 			);
 			path = dsigner;

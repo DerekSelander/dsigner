@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A6D280ED213DC40100CA7188 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D280EC213DC40100CA7188 /* main.m */; };
+		A6D280F4213E0F1800CA7188 /* dsigner in CopyFiles */ = {isa = PBXBuildFile; fileRef = A6D280E9213DC40100CA7188 /* dsigner */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -19,6 +20,16 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		A6D280F3213E0F0B00CA7188 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/local/bin;
+			dstSubfolderSpec = 0;
+			files = (
+				A6D280F4213E0F1800CA7188 /* dsigner in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -72,6 +83,7 @@
 				A6D280E5213DC40100CA7188 /* Sources */,
 				A6D280E6213DC40100CA7188 /* Frameworks */,
 				A6D280E7213DC40100CA7188 /* CopyFiles */,
+				A6D280F3213E0F0B00CA7188 /* CopyFiles */,
 			);
 			buildRules = (
 			);

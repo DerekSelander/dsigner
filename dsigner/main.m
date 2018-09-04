@@ -94,12 +94,15 @@ int main(int argc, const char * argv[], const char *enp[]) {
       return 1;
     }
     pFile = fopen ( argv[1], "r" );
-    if (pFile==NULL) {fputs ("File error", stderr); exit (1);}
+    if (pFile== NULL) {
+      fputs("File error", stderr);
+      exit(1);
+    }
     
     // obtain file size:
-    fseek (pFile , 0 , SEEK_END);
-    lSize = ftell (pFile);
-    rewind (pFile);
+    fseek(pFile , 0 , SEEK_END);
+    lSize = ftell(pFile);
+    rewind(pFile);
     
     // allocate memory to contain the whole file:
     buffer = (char*) malloc (sizeof(char)*lSize);
@@ -145,7 +148,6 @@ int main(int argc, const char * argv[], const char *enp[]) {
   
         
         fprintf(stdout, "%s\n%s\n", basename((char *)argv[1]), [[plist debugDescription] UTF8String]);
-//        NSLog( @"plist is %@", plist );
       }
     }
     fclose (pFile);
